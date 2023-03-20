@@ -241,7 +241,7 @@ function App() {
     <div className="App">
       <div className="card">
         <div className="chat-palette">
-          <div className="chat-palette-label">チャットパレット</div>
+          <div className="chat-palette-label">チャットパレットを下の入力欄にコピペしてください</div>
           <textarea
             name="input-chat-palette"
             cols={60}
@@ -251,13 +251,35 @@ function App() {
             placeholder={placeHolderOfChatPalette}
           />
         </div>
-        <div className="iyasaka-equipments">
+        <div className="iyasaka-equipments-db">
           ダイスボーナス装備
           {iyasakaEquipCheckbox("sukune", "宿禰", withSukune, setWithSukune)}
           {iyasakaEquipCheckbox("koumokuten", "広目天", withKoumokuten, setWithKoumokuten)}
           {iyasakaEquipCheckbox("toyosatomimi", "豊聡耳", withToyosatomimi, setWithToyosatomimi)}
           {iyasakaEquipCheckbox("tengumino", "天狗蓑", withTengumino, setWithTengumino)}
           {iyasakaEquipCheckbox("yagokoro", "八意", withYagokoro, setWithYagokoro)}
+        </div>
+        <div className="iyasaka-equipments">
+          その他の装備
+          {iyasakaEquipCheckbox("yoichi", "与一", withYoichi, setWithYoichi)}
+          {iyasakaEquipCheckbox("raiden", "雷電", withRaiden, setWithRaiden)}
+          {iyasakaEquipCheckbox("yaobiku", "八百比丘", withYaobiku, setWithYaobiku)}
+        </div>
+        <div className="tamayura">
+          <label htmlFor="tamayura-skill">玉響で使う技能</label>
+          <select
+            id="tamayura-skill"
+            name="tamayura-skill"
+            value={tamayuraSkill}
+            onChange={(event) => setTamayuraSkill(event.target.value)}
+          >
+            <option value="" />
+            {tamayura.map(skill => {
+              return (
+                <option value={skill}>{skill}</option>
+              )
+            })}
+          </select>
         </div>
         <div className="clearing">
           <label htmlFor="clearing-skill">クリアリング技能</label>
@@ -290,28 +312,6 @@ function App() {
               )
             })}
           </select>
-        </div>
-        <div className="tamayura">
-          <label htmlFor="tamayura-skill">玉響 使用技能</label>
-          <select
-            id="tamayura-skill"
-            name="tamayura-skill"
-            value={tamayuraSkill}
-            onChange={(event) => setTamayuraSkill(event.target.value)}
-          >
-            <option value="" />
-            {tamayura.map(skill => {
-              return (
-                <option value={skill}>{skill}</option>
-              )
-            })}
-          </select>
-        </div>
-        <div className="iyasaka-equipments">
-          その他の装備
-          {iyasakaEquipCheckbox("yoichi", "与一", withYoichi, setWithYoichi)}
-          {iyasakaEquipCheckbox("raiden", "雷電", withRaiden, setWithRaiden)}
-          {iyasakaEquipCheckbox("yaobiku", "八百比丘", withYaobiku, setWithYaobiku)}
         </div>
         <p>
           <button onClick={() => createOutputChatPalette(inputChatPalette)}>

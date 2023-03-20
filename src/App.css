@@ -13,12 +13,12 @@
   text-align: left;
 }
 
-.iyasaka-equipments {
+.iyasaka-equipments-db {
   display: flex;
   justify-content: space-between;
 }
 
-.clearing, .sneaking, .tamayura {
+.clearing, .sneaking, .tamayura, .iyasaka-equipments {
   display: flex;
   justify-content: left;
   gap: 1rem;
