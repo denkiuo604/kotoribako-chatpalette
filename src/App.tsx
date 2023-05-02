@@ -86,6 +86,9 @@ function App() {
     "危機察知",
   ]
 
+  // ストレングス
+  const strength = "ストレングス"
+
   const placeHolderOfChatPalette = "{共鳴}DM<= 〈∞共鳴〉\n({共鳴}+1)DM<= 共鳴判定（ルーツ属性一致）\n({共鳴}*2)DM<= 共鳴判定（完全一致）\n..."
   const borderLine = "--------------------"
 
@@ -186,13 +189,24 @@ function App() {
         damageCommands.push(commandForTamayura.replace(regExpDMwithDB, "($1+{共鳴})DM") + " ※玉響MP消費")
       }
 
+      // ストレングスの技能レベルを取得
+      const strengthLevel = Number(commands.find(command => command.includes(strength))?.charAt(0) ?? 0)
+
       // 玉響ダメージを追加
       switch (tamayuraSkill) {
         case "武術":
-          damageCommands.push("XD3+2D6 玉響ダメージ ※Xは成功数")
+          if (strengthLevel === 0) {
+            damageCommands.push("XD3+2D6 玉響ダメージ ※Xは成功数")
+          } else {
+            damageCommands.push(`XD3+2D6+${strengthLevel} 玉響ダメージ ※Xは成功数`)
+          }
           break
         case "★奥義":
-          damageCommands.push("(X+2)D6 玉響ダメージ ※Xは成功数")
+          if (strengthLevel === 0) {
+            damageCommands.push("(X+2)D6 玉響ダメージ ※Xは成功数")
+          } else {
+            damageCommands.push(`(X+2)D6+${strengthLevel} 玉響ダメージ ※Xは成功数`)
+          }
           break
         default:
           break
