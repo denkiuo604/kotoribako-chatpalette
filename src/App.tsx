@@ -290,7 +290,7 @@ function App() {
             <option value="" />
             {tamayura.map(skill => {
               return (
-                <option value={skill}>{skill}</option>
+                <option key={skill} value={skill}>{skill}</option>
               )
             })}
           </select>
@@ -306,7 +306,7 @@ function App() {
             <option value="" />
             {clearing.map(skill => {
               return (
-                <option value={skill}>{skill}</option>
+                <option key={skill} value={skill}>{skill}</option>
               )
             })}
           </select>
@@ -322,7 +322,7 @@ function App() {
             <option value="" />
             {sneaking.map(skill => {
               return (
-                <option value={skill}>{skill}</option>
+                <option key={skill} value={skill}>{skill}</option>
               )
             })}
           </select>
