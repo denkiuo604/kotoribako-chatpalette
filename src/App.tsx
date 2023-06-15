@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { RiDiscordFill } from 'react-icons/ri'
+import { ImGithub } from 'react-icons/im'
 import './App.css'
 
-function App() {
+const App = () => {
   const [inputChatPalette, setInputChatPalette] = useState("")
   const [outputChatPalette, setOutputChatPalette] = useState("")
   const [withSukune, setWithSukune] = useState(false)
@@ -243,9 +245,9 @@ function App() {
   // クリップボードにテキストをコピー
   const copyTextToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
-    .then(function () {
+    .then(() => {
       alert('クリップボードにコピーしました！')
-    }, function (err) {
+    }, (err) => {
       alert('コピーに失敗しました。')
       console.error('Could not copy text: ', err)
     })
@@ -351,6 +353,14 @@ function App() {
       <p className="read-the-docs">
         <a href="https://talto.cc/projects/uHgxrL9QQ9B3Fep7-1DAO" target="_blank">エモクロアTRPG『新約・コトリバコ』</a>用 チャパレ加工ツール
       </p>
+      <div className="icons">
+        <a href="https://discord.gg/PJG2TZHXUK">
+          <RiDiscordFill size="5vmin" />
+        </a>
+        <a href="https://github.com/denkiuo604/kotoribako-chatpalette">
+          <ImGithub size="5vmin" />
+        </a>
+      </div>
     </div>
   )
 }
