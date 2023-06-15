@@ -351,7 +351,7 @@ const App = () => {
         </p>
       </div>
       <p className="read-the-docs">
-        <a href="https://talto.cc/projects/uHgxrL9QQ9B3Fep7-1DAO" target="_blank">エモクロアTRPG『新約・コトリバコ』</a>用 チャパレ加工ツール
+        <a href="https://talto.cc/projects/uHgxrL9QQ9B3Fep7-1DAO">エモクロアTRPG『新約・コトリバコ』</a>用 チャパレ加工ツール
       </p>
       <div className="icons">
         <a href="https://discord.gg/PJG2TZHXUK">
