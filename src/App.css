@@ -36,6 +36,6 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: calc(3px + 2vmin);
-  gap: 5vmin;
+  font-size: calc(32px);
+  gap: 32px;
 }

@@ -355,10 +355,10 @@ const App = () => {
       </p>
       <div className="icons">
         <a href="https://discord.gg/PJG2TZHXUK">
-          <RiDiscordFill size="5vmin" />
+          <RiDiscordFill size="32px" />
         </a>
         <a href="https://github.com/denkiuo604/kotoribako-chatpalette">
-          <ImGithub size="5vmin" />
+          <ImGithub size="32px" />
         </a>
       </div>
     </div>
