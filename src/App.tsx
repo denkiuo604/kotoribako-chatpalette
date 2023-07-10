@@ -253,6 +253,23 @@ const App = () => {
     })
   }
 
+  // すべてを無に帰す
+  const resetInputs = () => {
+    setInputChatPalette("")
+    setOutputChatPalette("")
+    setWithSukune(false)
+    setWithYoichi(false)
+    setWithRaiden(false)
+    setWithKoumokuten(false)
+    setWithToyosatomimi(false)
+    setWithTengumino(false)
+    setWithYagokoro(false)
+    setWithYaobiku(false)
+    setClearingSkill("")
+    setSneakingSkill("")
+    setTamayuraSkill("")
+  }
+
   return (
     <div className="App">
       <div className="card">
@@ -347,6 +364,11 @@ const App = () => {
         <p>
           <button onClick={() => copyTextToClipboard(outputChatPalette)}>
             出力結果をコピー
+          </button>
+        </p>
+        <p>
+          <button onClick={() => resetInputs()}>
+            リセット
           </button>
         </p>
       </div>
