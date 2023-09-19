@@ -151,6 +151,9 @@ const App = () => {
       return changedCommand
     })
 
+    // 現在の呪力指数を追加
+    changedCommands.unshift("現在の呪力指数：{呪力指数}")
+
     // 特殊技能
     const specialSkillCommands: string[] = []
 
