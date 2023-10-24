@@ -92,7 +92,7 @@ const App = () => {
   const strength = "ストレングス"
 
   const placeHolderOfChatPalette = "{共鳴}DM<= 〈∞共鳴〉\n({共鳴}+1)DM<= 共鳴判定（ルーツ属性一致）\n({共鳴}*2)DM<= 共鳴判定（完全一致）\n..."
-  const borderLine = "--------------------"
+  const fullBlank = "　"
 
   // イヤサカ装備チェックボックス テンプレート
   const iyasakaEquipCheckbox = (name: string, label: string, checked: boolean, setMethod: (value: boolean) => void) => {
@@ -112,10 +112,14 @@ const App = () => {
 
   // チャットパレット作成
   const createOutputChatPalette = (inputChatPalette: string) => {
-    // 入力されたチャットパレットを改行ごとに分解
-    const commands = inputChatPalette.split("\n")
+    // 出力用
+    const outputCommands: string[] = []
 
-    const changedCommands = commands.map(command => {
+    // 入力されたチャットパレットを改行ごとに分解
+    const inputCommands = inputChatPalette.split("\n")
+
+    // ダイスボーナス付与処理
+    const commands = inputCommands.map(command => {
       let changedCommand = command
 
       // 共鳴判定に{呪力指数}を追加
@@ -151,37 +155,57 @@ const App = () => {
       return changedCommand
     })
 
-    // 現在の呪力指数を追加
-    changedCommands.unshift("現在の呪力指数：{呪力指数}")
+    // チャットパレットを共鳴判定、ベース技能、取得技能に分類
+    const commandsResonance = commands.filter(command => command.includes("{共鳴}"))
+    const commandsBase = commands.filter(command => command.includes("＊"))
+    const commandsAcquired = commands.filter(
+      // 取得技能＝共鳴判定でもベース技能でもないもの
+      command => !commandsResonance.includes(command) && !commandsBase.includes(command)
+    )
+
+    // 出力用に共鳴判定を追加
+    outputCommands.push("現在の呪力指数：{呪力指数}")
+    commandsResonance.forEach(command => {
+      outputCommands.push(command)
+    })
+    outputCommands.push(fullBlank)
 
     // 特殊技能
     const specialSkillCommands: string[] = []
 
+    // クリアリングを追加
+    const commandForClearing = commands.find(command => command.includes(clearingSkill))
+    if (clearingSkill && commandForClearing) {
+      specialSkillCommands.push(commandForClearing.replace(/〈.+?〉/, "〈クリアリング〉"))
+    }
+    
     // スニーキングを追加
-    const commandForSneaking = changedCommands.find(command => command.includes(sneakingSkill))
+    const commandForSneaking = commands.find(command => command.includes(sneakingSkill))
     if (sneakingSkill && commandForSneaking) {
       specialSkillCommands.push(commandForSneaking.replace(/〈.+?〉/, "〈スニーキング〉"))
     }
 
-    // クリアリングを追加
-    const commandForClearing = changedCommands.find(command => command.includes(clearingSkill))
-    if (clearingSkill && commandForClearing) {
-      specialSkillCommands.push(commandForClearing.replace(/〈.+?〉/, "〈クリアリング〉"))
+    // 出力用に特殊技能を追加
+    if (specialSkillCommands.length > 0) {
+      outputCommands.push("//　特殊技能")
+      specialSkillCommands.forEach(command => {
+        outputCommands.push(command)
+      })
+      outputCommands.push(fullBlank)
     }
 
-    // 特殊技能を追加
-    if (specialSkillCommands.length > 0) {
-      specialSkillCommands.unshift(borderLine)
-      specialSkillCommands.forEach(command => {
-        changedCommands.unshift(command)
-      })
-    }
+    // 出力用に取得技能を追加
+    outputCommands.push("//　取得技能")
+    commandsAcquired.forEach(command => {
+      outputCommands.push(command)
+    })
+    outputCommands.push(fullBlank)
 
     // ダメージ算出コマンド
     const damageCommands: string[] = []
 
     // 玉響を追加
-    const commandForTamayura = changedCommands.find(command => command.includes(tamayuraSkill))
+    const commandForTamayura = commands.find(command => command.includes(tamayuraSkill))
     if (tamayuraSkill && commandForTamayura) {
       damageCommands.push("1D3 玉響MP消費")
 
@@ -195,7 +219,7 @@ const App = () => {
       }
 
       // ストレングスの技能レベルを取得
-      const strengthLevel = Number(commands.find(command => command.includes(strength))?.charAt(0) ?? 0)
+      const strengthLevel = Number(inputCommands.find(command => command.includes(strength))?.charAt(0) ?? 0)
 
       // 玉響ダメージを追加
       switch (tamayuraSkill) {
@@ -233,16 +257,23 @@ const App = () => {
       damageCommands.push("2D6 八百比丘HP回復")
     }
 
-    // ダメージ算出コマンドを追加
+    // 出力用にダメージ算出コマンドを追加
     if (damageCommands.length > 0) {
-      changedCommands.push(borderLine)
+      outputCommands.push("//　攻撃データ")
       damageCommands.forEach(command => {
-        changedCommands.push(command)
+        outputCommands.push(command)
       })
+      outputCommands.push(fullBlank)
     }
 
+    // 出力用にベース技能を追加
+    outputCommands.push("//　ベース技能")
+    commandsBase.forEach(command => {
+      outputCommands.push(command)
+    })
+
     // 分解されたコマンドを一つのチャットパレットとしてセット
-    setOutputChatPalette(changedCommands.join("\n"))
+    setOutputChatPalette(outputCommands.join("\n"))
   }
 
   // クリップボードにテキストをコピー
