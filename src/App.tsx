@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Tooltip } from "@mui/material";
 import { RiDiscordFill } from 'react-icons/ri'
 import { ImGithub } from 'react-icons/im'
 import './App.css'
@@ -17,6 +18,7 @@ const App = () => {
   const [clearingSkill, setClearingSkill] = useState("")
   const [sneakingSkill, setSneakingSkill] = useState("")
   const [tamayuraSkill, setTamayuraSkill] = useState("")
+  const [showCopied, setShowCopied] = useState(false)
 
   // 宿禰：運動・生存系技能
   const sukune = [
@@ -280,7 +282,7 @@ const App = () => {
   const copyTextToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
     .then(() => {
-      alert('クリップボードにコピーしました！')
+      setShowCopied(true)
     }, (err) => {
       alert('コピーに失敗しました。')
       console.error('Could not copy text: ', err)
@@ -396,9 +398,18 @@ const App = () => {
           />
         </div>
         <p>
-          <button onClick={() => copyTextToClipboard(outputChatPalette)}>
-            出力結果をコピー
-          </button>
+          <Tooltip
+            arrow
+            open={showCopied}
+            onClose={() => setShowCopied(false)}
+            disableHoverListener
+            placement="top"
+            title="コピーしました！"
+          >
+            <button onClick={() => copyTextToClipboard(outputChatPalette)}>
+              出力結果をコピー
+            </button>
+          </Tooltip>
         </p>
         <p>
           <button onClick={() => resetInputs()}>
