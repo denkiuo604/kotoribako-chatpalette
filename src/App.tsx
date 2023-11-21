@@ -93,7 +93,7 @@ const App = () => {
   // ストレングス
   const strength = "ストレングス"
 
-  const placeHolderOfChatPalette = "{共鳴}DM<= 〈∞共鳴〉\n({共鳴}+1)DM<= 共鳴判定（ルーツ属性一致）\n({共鳴}*2)DM<= 共鳴判定（完全一致）\n..."
+  const placeHolderOfChatPalette = "{共鳴}DM<={強度} 〈∞共鳴〉\n({共鳴}+1)DM<={強度} 〈∞共鳴〉ルーツ属性一致\n({共鳴}*2)DM<={強度} 〈∞共鳴〉完全一致\n..."
   const fullBlank = "　"
 
   // イヤサカ装備チェックボックス テンプレート
@@ -124,9 +124,9 @@ const App = () => {
     const commands = inputCommands.map(command => {
       let changedCommand = command
 
-      // 共鳴判定に{呪力指数}を追加
+      // 共鳴判定の{強度}を{呪力指数}に変換
       if (command.includes("{共鳴}")) {
-        changedCommand = command.replace("<= ", "<={呪力指数} ")
+        changedCommand = command.replace("<={強度} ", "<={呪力指数} ")
       }
 
       // 宿禰ダイスボーナスを追加
