@@ -3,12 +3,13 @@ import { Tooltip } from "@mui/material";
 import { RiDiscordFill } from 'react-icons/ri'
 import { ImGithub } from 'react-icons/im'
 import './App.css'
+import { CharacterClipboardData } from './ccfolia'
 
 const App = () => {
-  const [inputChatPalette, setInputChatPalette] = useState("")
-  const [outputChatPalette, setOutputChatPalette] = useState("")
+  const [inputTextArea, setInputTextArea] = useState("")
+  const [inputCharJson, setInputCharJson] = useState<CharacterClipboardData>()
   const [withSukune, setWithSukune] = useState(false)
-  const [withYoichi, setWithYoichi] = useState(false)
+  const [numYoichi, setNumYoichi] = useState(0)
   const [withRaiden, setWithRaiden] = useState(false)
   const [withKoumokuten, setWithKoumokuten] = useState(false)
   const [withToyosatomimi, setWithToyosatomimi] = useState(false)
@@ -90,10 +91,21 @@ const App = () => {
     "危機察知",
   ]
 
+  // 与一の取得個数
+  const yoichi = [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+  ]
+
   // ストレングス
   const strength = "ストレングス"
 
-  const placeHolderOfChatPalette = "{共鳴}DM<={強度} 〈∞共鳴〉\n({共鳴}+1)DM<={強度} 〈∞共鳴〉ルーツ属性一致\n({共鳴}*2)DM<={強度} 〈∞共鳴〉完全一致\n..."
+  // 全角空白
   const fullBlank = "　"
 
   // イヤサカ装備チェックボックス テンプレート
@@ -189,7 +201,7 @@ const App = () => {
 
     // 出力用に特殊技能を追加
     if (specialSkillCommands.length > 0) {
-      outputCommands.push("//　特殊技能")
+      outputCommands.push(`//${fullBlank}特殊技能`)
       specialSkillCommands.forEach(command => {
         outputCommands.push(command)
       })
@@ -197,7 +209,7 @@ const App = () => {
     }
 
     // 出力用に取得技能を追加
-    outputCommands.push("//　取得技能")
+    outputCommands.push(`//${fullBlank}取得技能`)
     commandsAcquired.forEach(command => {
       outputCommands.push(command)
     })
@@ -245,7 +257,7 @@ const App = () => {
     }
 
     // 与一を追加
-    if (withYoichi) {
+    if (numYoichi > 0) {
       damageCommands.push("{共鳴}D10 与一ダメージ")
     }
 
@@ -261,7 +273,7 @@ const App = () => {
 
     // 出力用にダメージ算出コマンドを追加
     if (damageCommands.length > 0) {
-      outputCommands.push("//　攻撃データ")
+      outputCommands.push(`//${fullBlank}攻撃データ`)
       damageCommands.forEach(command => {
         outputCommands.push(command)
       })
@@ -269,13 +281,46 @@ const App = () => {
     }
 
     // 出力用にベース技能を追加
-    outputCommands.push("//　ベース技能")
+    outputCommands.push(`//${fullBlank}ベース技能`)
     commandsBase.forEach(command => {
       outputCommands.push(command)
     })
 
-    // 分解されたコマンドを一つのチャットパレットとしてセット
-    setOutputChatPalette(outputCommands.join("\n"))
+    // 分解されたコマンドを一つのチャットパレットとして返す
+    return outputCommands.join("\n")
+  }
+
+  // ココフォリア駒作成
+  const createOutputCharJson = () => {
+    if (!inputCharJson) return
+    // 出力結果を格納する変数
+    const charJson = { ...inputCharJson }
+    
+    // チャットパレット作成
+    charJson.data.commands = createOutputChatPalette(inputCharJson.data.commands ?? "")
+
+    // イニシアチブ＝【身体】+〈スピード〉
+    const shintai = Number(inputCharJson.data.params?.find(param => param.label === "身体")?.value ?? 0)
+    const speed = Number(inputCharJson.data.commands?.split("\n").find(command => command.includes("スピード"))?.charAt(0) ?? 0)
+    charJson.data.initiative = shintai + speed
+    // 宿禰を所持している場合はイニシアチブ+2
+    if (withSukune) charJson.data.initiative += 2
+
+    charJson.data.status?.forEach(item => {
+      // 宿禰を所持している場合はHP+5
+      if (withSukune && item.label === "HP") {
+        item.value += 5
+        item.max += 5
+      }
+      // 与一の取得個数×2だけMPを減少させる
+      if (item.label === "MP") {
+        item.value -= numYoichi * 2
+        item.max -= numYoichi * 2
+      }
+    })
+
+    // 完成したココフォリア駒をクリップボードにコピー
+    copyTextToClipboard(JSON.stringify(charJson))
   }
 
   // クリップボードにテキストをコピー
@@ -283,18 +328,27 @@ const App = () => {
     navigator.clipboard.writeText(text)
     .then(() => {
       setShowCopied(true)
-    }, (err) => {
+    }, (error) => {
       alert('コピーに失敗しました。')
-      console.error('Could not copy text: ', err)
+      console.error('Could not copy text: ', error)
     })
+  }
+
+  // JSON文字列をオブジェクトに変換
+  const ConvertJSONtoObject = (value: string) => {
+    try {
+      const character: CharacterClipboardData = JSON.parse(value)
+      setInputCharJson(character)
+    } catch (error) {
+      alert('貼り付けられたココフォリア駒が不正です。')
+    }
   }
 
   // すべてを無に帰す
   const resetInputs = () => {
-    setInputChatPalette("")
-    setOutputChatPalette("")
+    setInputCharJson(undefined)
     setWithSukune(false)
-    setWithYoichi(false)
+    setNumYoichi(0)
     setWithRaiden(false)
     setWithKoumokuten(false)
     setWithToyosatomimi(false)
@@ -309,15 +363,15 @@ const App = () => {
   return (
     <div className="App">
       <div className="card">
-        <div className="chat-palette">
-          <div className="chat-palette-label">チャットパレットを下の入力欄にコピペしてください</div>
+        <div className="char-json">
+          <div className="char-json-label">"CCFOLIA形式でコピー"したものを以下のエリアに貼り付けてください</div>
           <textarea
-            name="input-chat-palette"
+            name="input-char-json"
             cols={60}
-            rows={10}
-            value={inputChatPalette}
-            onChange={(event) => setInputChatPalette(event.target.value)}
-            placeholder={placeHolderOfChatPalette}
+            value={inputTextArea}
+            onChange={() => setInputTextArea("")}
+            onPaste={(event) => ConvertJSONtoObject(event.clipboardData.getData("text"))}
+            placeholder={inputCharJson ? "ココフォリア駒 読み込み済" : "ここにココフォリア駒を貼り付けてください"}
           />
         </div>
         <div className="clearing">
@@ -368,6 +422,21 @@ const App = () => {
             })}
           </select>
         </div>
+        <div className="yoichi">
+          <label htmlFor="yoichi-num">与一の取得個数</label>
+          <select
+            id="yoichi-num"
+            name="yoichi-num"
+            value={numYoichi}
+            onChange={(event) => setNumYoichi(Number(event.target.value))}
+          >
+            {yoichi.map(num => {
+              return (
+                <option key={num} value={num}>{num}</option>
+              )
+            })}
+          </select>
+        </div>
         <div className="iyasaka-equipments-db">
           ダイスボーナス装備
           {iyasakaEquipCheckbox("sukune", "宿禰", withSukune, setWithSukune)}
@@ -378,24 +447,8 @@ const App = () => {
         </div>
         <div className="iyasaka-equipments">
           その他の装備
-          {iyasakaEquipCheckbox("yoichi", "与一", withYoichi, setWithYoichi)}
           {iyasakaEquipCheckbox("raiden", "雷電", withRaiden, setWithRaiden)}
           {iyasakaEquipCheckbox("yaobiku", "八百比丘", withYaobiku, setWithYaobiku)}
-        </div>
-        <p>
-          <button onClick={() => createOutputChatPalette(inputChatPalette)}>
-            出力
-          </button>
-        </p>
-        <div className="chat-palette">
-          <textarea
-            name="output-chat-palette"
-            cols={60}
-            rows={10}
-            value={outputChatPalette}
-            placeholder="ここに結果が出力されます"
-            readOnly
-          />
         </div>
         <p>
           <Tooltip
@@ -406,8 +459,8 @@ const App = () => {
             placement="top"
             title="コピーしました！"
           >
-            <button onClick={() => copyTextToClipboard(outputChatPalette)}>
-              出力結果をコピー
+            <button onClick={() => createOutputCharJson()} disabled={!inputCharJson}>
+              加工されたココフォリア駒をコピー
             </button>
           </Tooltip>
         </p>
