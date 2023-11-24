@@ -9,7 +9,7 @@
   padding: 2em;
 }
 
-.char-json-label {
+.chat-palette-label, .char-json-label {
   text-align: left;
 }
 
@@ -29,6 +29,10 @@ select {
 }
 
 .read-the-docs {
+  color: #888;
+}
+
+.another-page a {
   color: #888;
 }
 
