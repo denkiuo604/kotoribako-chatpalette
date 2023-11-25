@@ -109,6 +109,9 @@ const CcfoliaFormat = () => {
   // 全角空白
   const fullBlank = "　"
 
+  // 型不正エラー文
+  const invalidCharError = "貼り付けられたココフォリア駒が不正です。"
+
   // イヤサカ装備チェックボックス テンプレート
   const iyasakaEquipCheckbox = (name: string, label: string, checked: boolean, setMethod: (value: boolean) => void) => {
     return (
@@ -297,31 +300,36 @@ const CcfoliaFormat = () => {
     // 出力結果を格納する変数
     const charJson = { ...inputCharJson }
     
-    // イニシアチブ＝【身体】+〈スピード〉
-    const shintai = Number(inputCharJson.data.params?.find(param => param.label === "身体")?.value ?? 0)
-    const speed = Number(inputCharJson.data.commands?.split("\n").find(command => command.includes("スピード"))?.charAt(0) ?? 0)
-    charJson.data.initiative = shintai + speed
-    // 宿禰を所持している場合はイニシアチブ+2
-    if (withSukune) charJson.data.initiative += 2
-
-    charJson.data.status?.forEach(item => {
-      // 宿禰を所持している場合はHP+5
-      if (withSukune && item.label === "HP") {
-        item.value += 5
-        item.max += 5
-      }
-      // 与一の取得個数×2だけMPを減少させる
-      if (item.label === "MP") {
-        item.value -= numYoichi * 2
-        item.max -= numYoichi * 2
-      }
-    })
-    
-    // チャットパレット作成
-    charJson.data.commands = createOutputChatPalette(inputCharJson.data.commands ?? "")
-
-    // 完成したココフォリア駒をクリップボードにコピー
-    copyTextToClipboard(JSON.stringify(charJson))
+    try {
+      // イニシアチブ＝【身体】+〈スピード〉
+      const shintai = Number(inputCharJson.data.params?.find(param => param.label === "身体")?.value ?? 0)
+      const speed = Number(inputCharJson.data.commands?.split("\n").find(command => command.includes("スピード"))?.charAt(0) ?? 0)
+      charJson.data.initiative = shintai + speed
+      // 宿禰を所持している場合はイニシアチブ+2
+      if (withSukune) charJson.data.initiative += 2
+  
+      charJson.data.status?.forEach(item => {
+        // 宿禰を所持している場合はHP+5
+        if (withSukune && item.label === "HP") {
+          item.value += 5
+          item.max += 5
+        }
+        // 与一の取得個数×2だけMPを減少させる
+        if (item.label === "MP") {
+          item.value -= numYoichi * 2
+          item.max -= numYoichi * 2
+        }
+      })
+      
+      // チャットパレット作成
+      charJson.data.commands = createOutputChatPalette(inputCharJson.data.commands ?? "")
+  
+      // 完成したココフォリア駒をクリップボードにコピー
+      copyTextToClipboard(JSON.stringify(charJson))
+    } catch (error) {
+      alert('ココフォリア駒の加工に失敗しました。')
+      console.error('Could not create output: ', error)
+    }
   }
 
   // クリップボードにテキストをコピー
@@ -339,10 +347,25 @@ const CcfoliaFormat = () => {
   const ConvertJSONtoObject = (value: string) => {
     try {
       const character: CharacterClipboardData = JSON.parse(value)
+
+      // 入力されたオブジェクトの型チェック
+      if (!isCharacterClipboardData(character)) {
+        alert(invalidCharError)
+        console.error('入力されたオブジェクトの型チェックエラーです。')
+        return
+      }
+
       setInputCharJson(character)
     } catch (error) {
-      alert('貼り付けられたココフォリア駒が不正です。')
+      alert(invalidCharError)
+      console.error('Could not convert JSON string: ', error)
     }
+  }
+
+  // オブジェクトの型チェック
+  const isCharacterClipboardData = (obj: any): obj is CharacterClipboardData => {
+    // とりあえずkindだけチェックする
+    return (obj as CharacterClipboardData).kind === "character"
   }
 
   // すべてを無に帰す
