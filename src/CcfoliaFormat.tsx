@@ -471,10 +471,10 @@ const CcfoliaFormat = () => {
         </p>
       </div>
       <p className="read-the-docs">
-        <a href="https://talto.cc/projects/uHgxrL9QQ9B3Fep7-1DAO">エモクロアTRPG『新約・コトリバコ』</a>用 チャパレ加工ツール
+        <a href="https://talto.cc/projects/uHgxrL9QQ9B3Fep7-1DAO">エモクロアTRPG『新約・コトリバコ』</a>用 ココフォリア駒加工ツール
       </p>
       <p className="another-page">
-        <a href="/kotoribako-chatpalette/">チャットパレット加工ツールへ</a>
+        <a href="/kotoribako-chatpalette/">チャパレ加工ツールへ</a>
       </p>
       <div className="icons">
         <a href="https://discord.gg/PJG2TZHXUK">
