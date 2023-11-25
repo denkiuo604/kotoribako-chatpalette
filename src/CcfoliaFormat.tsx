@@ -296,9 +296,6 @@ const CcfoliaFormat = () => {
     // 出力結果を格納する変数
     const charJson = { ...inputCharJson }
     
-    // チャットパレット作成
-    charJson.data.commands = createOutputChatPalette(inputCharJson.data.commands ?? "")
-
     // イニシアチブ＝【身体】+〈スピード〉
     const shintai = Number(inputCharJson.data.params?.find(param => param.label === "身体")?.value ?? 0)
     const speed = Number(inputCharJson.data.commands?.split("\n").find(command => command.includes("スピード"))?.charAt(0) ?? 0)
@@ -318,6 +315,9 @@ const CcfoliaFormat = () => {
         item.max -= numYoichi * 2
       }
     })
+    
+    // チャットパレット作成
+    charJson.data.commands = createOutputChatPalette(inputCharJson.data.commands ?? "")
 
     // 完成したココフォリア駒をクリップボードにコピー
     copyTextToClipboard(JSON.stringify(charJson))
