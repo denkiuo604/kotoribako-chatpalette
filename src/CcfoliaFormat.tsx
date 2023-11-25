@@ -4,6 +4,7 @@ import { RiDiscordFill } from 'react-icons/ri'
 import { ImGithub } from 'react-icons/im'
 import './App.css'
 import { CharacterClipboardData } from './ccfolia'
+import { Link } from 'react-router-dom';
 
 const CcfoliaFormat = () => {
   const [inputTextArea, setInputTextArea] = useState("")
@@ -474,7 +475,7 @@ const CcfoliaFormat = () => {
         <a href="https://talto.cc/projects/uHgxrL9QQ9B3Fep7-1DAO">エモクロアTRPG『新約・コトリバコ』</a>用 ココフォリア駒加工ツール
       </p>
       <p className="another-page">
-        <a href="/kotoribako-chatpalette/">チャパレ加工ツールへ</a>
+        <Link to="/kotoribako-chatpalette">チャパレ加工ツールへ</Link>
       </p>
       <div className="icons">
         <a href="https://discord.gg/PJG2TZHXUK">

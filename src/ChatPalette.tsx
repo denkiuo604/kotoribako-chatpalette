@@ -3,6 +3,7 @@ import { Tooltip } from "@mui/material";
 import { RiDiscordFill } from 'react-icons/ri'
 import { ImGithub } from 'react-icons/im'
 import './App.css'
+import { Link } from 'react-router-dom';
 
 const ChatPalette = () => {
   const [inputChatPalette, setInputChatPalette] = useState("")
@@ -421,7 +422,7 @@ const ChatPalette = () => {
         <a href="https://talto.cc/projects/uHgxrL9QQ9B3Fep7-1DAO">エモクロアTRPG『新約・コトリバコ』</a>用 チャパレ加工ツール
       </p>
       <p className="another-page">
-        <a href="/kotoribako-chatpalette/ccfolia-format">ココフォリア駒加工ツールへ</a>
+        <Link to="/kotoribako-chatpalette/ccfolia-format">ココフォリア駒加工ツールへ</Link>
       </p>
       <div className="icons">
         <a href="https://discord.gg/PJG2TZHXUK">
