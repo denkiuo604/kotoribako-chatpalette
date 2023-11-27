@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "postbuild": "cp dist/index.html dist/404.html",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
