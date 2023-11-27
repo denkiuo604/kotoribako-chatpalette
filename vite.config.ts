@@ -7,5 +7,5 @@ export default defineConfig({
     open: true,
   },
   plugins: [react()],
-  base: "/kotoribako-chatpalette",
+  base: "/kotoribako-chatpalette/",
 })
