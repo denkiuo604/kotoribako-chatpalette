@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 const CcfoliaFormat = () => {
   const [inputTextArea, setInputTextArea] = useState("")
-  const [inputCharJson, setInputCharJson] = useState<CharacterClipboardData>()
+  const [inputCharJson, setInputCharJson] = useState("")
   const [withSukune, setWithSukune] = useState(false)
   const [numYoichi, setNumYoichi] = useState(0)
   const [withRaiden, setWithRaiden] = useState(false)
@@ -298,12 +298,12 @@ const CcfoliaFormat = () => {
   const createOutputCharJson = () => {
     if (!inputCharJson) return
     // 出力結果を格納する変数
-    const charJson = { ...inputCharJson }
+    const charJson: CharacterClipboardData = JSON.parse(inputCharJson)
     
     try {
       // イニシアチブ＝【身体】+〈スピード〉
-      const shintai = Number(inputCharJson.data.params?.find(param => param.label === "身体")?.value ?? 0)
-      const speed = Number(inputCharJson.data.commands?.split("\n").find(command => command.includes("スピード"))?.charAt(0) ?? 0)
+      const shintai = Number(charJson.data.params?.find(param => param.label === "身体")?.value ?? 0)
+      const speed = Number(charJson.data.commands?.split("\n").find(command => command.includes("スピード"))?.charAt(0) ?? 0)
       charJson.data.initiative = shintai + speed
       // 宿禰を所持している場合はイニシアチブ+2
       if (withSukune) charJson.data.initiative += 2
@@ -322,7 +322,7 @@ const CcfoliaFormat = () => {
       })
       
       // チャットパレット作成
-      charJson.data.commands = createOutputChatPalette(inputCharJson.data.commands ?? "")
+      charJson.data.commands = createOutputChatPalette(charJson.data.commands ?? "")
   
       // 完成したココフォリア駒をクリップボードにコピー
       copyTextToClipboard(JSON.stringify(charJson))
@@ -343,8 +343,8 @@ const CcfoliaFormat = () => {
     })
   }
 
-  // JSON文字列をオブジェクトに変換
-  const ConvertJSONtoObject = (value: string) => {
+  // JSON文字列を型チェックして変数にセット
+  const checkInputCharJson = (value: string) => {
     try {
       const character: CharacterClipboardData = JSON.parse(value)
 
@@ -355,7 +355,7 @@ const CcfoliaFormat = () => {
         return
       }
 
-      setInputCharJson(character)
+      setInputCharJson(value)
     } catch (error) {
       alert(invalidCharError)
       console.error('Could not convert JSON string: ', error)
@@ -370,7 +370,7 @@ const CcfoliaFormat = () => {
 
   // すべてを無に帰す
   const resetInputs = () => {
-    setInputCharJson(undefined)
+    setInputCharJson("")
     setWithSukune(false)
     setNumYoichi(0)
     setWithRaiden(false)
@@ -394,7 +394,7 @@ const CcfoliaFormat = () => {
             cols={60}
             value={inputTextArea}
             onChange={() => setInputTextArea("")}
-            onPaste={(event) => ConvertJSONtoObject(event.clipboardData.getData("text"))}
+            onPaste={(event) => checkInputCharJson(event.clipboardData.getData("text"))}
             placeholder={inputCharJson ? "ココフォリア駒 読み込み済" : "ここにココフォリア駒を貼り付けてください"}
           />
         </div>
