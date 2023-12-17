@@ -115,9 +115,9 @@ const CcfoliaFormat = () => {
   }
 
   // オブジェクトの型チェック
-  const isCharacterClipboardData = (obj: any): obj is CharacterClipboardData => {
+  const isCharacterClipboardData = (obj: CharacterClipboardData) => {
     // とりあえずkindだけチェックする
-    return (obj as CharacterClipboardData).kind === "character"
+    return obj.kind === "character"
   }
 
   // すべてを無に帰す
@@ -140,7 +140,7 @@ const CcfoliaFormat = () => {
     <div className="App">
       <div className="card">
         <div className="char-json">
-          <div className="char-json-label">"CCFOLIA形式でコピー"したものを以下のエリアに貼り付けてください</div>
+          <div className="char-json-label">{'"CCFOLIA形式でコピー"したものを以下のエリアに貼り付けてください'}</div>
           <textarea
             name="input-char-json"
             cols={60}
