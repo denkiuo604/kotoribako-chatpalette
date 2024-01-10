@@ -49,7 +49,7 @@ const CcfoliaFormat = () => {
     if (!inputCharJson) return
     // 出力結果を格納する変数
     const charJson: CharacterClipboardData = JSON.parse(inputCharJson)
-    
+
     try {
       // イニシアチブ＝【身体】+〈スピード〉
       const shintai = Number(charJson.data.params?.find(param => param.label === "身体")?.value ?? 0)
@@ -57,7 +57,7 @@ const CcfoliaFormat = () => {
       charJson.data.initiative = shintai + speed
       // 宿禰を所持している場合はイニシアチブ+2
       if (withSukune) charJson.data.initiative += 2
-  
+
       charJson.data.status?.forEach(item => {
         // 宿禰を所持している場合はHP+5
         if (withSukune && item.label === "HP") {
@@ -70,7 +70,7 @@ const CcfoliaFormat = () => {
           item.max -= numYoichi * 2
         }
       })
-      
+
       // チャットパレット作成
       charJson.data.commands = createOutputChatPalette(
         charJson.data.commands ?? "",
@@ -86,7 +86,7 @@ const CcfoliaFormat = () => {
         sneakingSkill,
         tamayuraSkill,
       )
-  
+
       // 完成したココフォリア駒をクリップボードにコピー
       copyTextToClipboard(JSON.stringify(charJson), setShowCopied(true))
     } catch (error) {

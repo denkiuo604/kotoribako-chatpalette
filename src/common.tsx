@@ -124,12 +124,12 @@ export const iyasakaEquipCheckbox = (name: string, label: string, checked: boole
  */
 export const copyTextToClipboard = (text: string, onSuccess: void) => {
   navigator.clipboard.writeText(text)
-  .then(() => {
-    onSuccess
-  }, (error) => {
-    alert('コピーに失敗しました。')
-    console.error('Could not copy text: ', error)
-  })
+    .then(() => {
+      onSuccess
+    }, (error) => {
+      alert('コピーに失敗しました。')
+      console.error('Could not copy text: ', error)
+    })
 }
 
 /**
@@ -228,7 +228,7 @@ export const createOutputChatPalette = (
   if (clearingSkill && commandForClearing) {
     specialSkillCommands.push(commandForClearing.replace(/〈.+?〉/, "〈クリアリング〉"))
   }
-  
+
   // スニーキングを追加
   const commandForSneaking = commands.find(command => command.includes(sneakingSkill))
   if (sneakingSkill && commandForSneaking) {
