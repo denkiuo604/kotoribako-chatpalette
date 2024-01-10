@@ -48,3 +48,7 @@ select {
   font-size: calc(32px);
   gap: 32px;
 }
+
+textarea {
+  resize: vertical;
+}
