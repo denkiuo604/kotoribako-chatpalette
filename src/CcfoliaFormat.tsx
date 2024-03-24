@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Tooltip } from '@mui/material'
+import { Modal } from '@mui/material'
+import { Box } from '@mui/material'
 import { RiDiscordFill } from 'react-icons/ri'
 import { ImGithub } from 'react-icons/im'
 import './App.css'
@@ -29,6 +31,11 @@ const CcfoliaFormat = () => {
   const [sneakingSkill, setSneakingSkill] = useState("")
   const [tamayuraSkill, setTamayuraSkill] = useState("")
   const [showCopied, setShowCopied] = useState(false)
+  const [showCharDataModal, setShowCharDataModal] = useState(false)
+  const [HP, setHP] = useState(0)
+  const [MP, setMP] = useState(0)
+  const [initiative, setInitiative] = useState(0)
+  const [outputChatPalette, setOutputChatPalette] = useState("")
 
   // 与一の取得個数
   const yoichi = [
@@ -46,7 +53,7 @@ const CcfoliaFormat = () => {
 
   // ココフォリア駒作成
   const createOutputCharJson = () => {
-    if (!inputCharJson) return
+    if (!inputCharJson) return ""
     // 出力結果を格納する変数
     const charJson: CharacterClipboardData = JSON.parse(inputCharJson)
 
@@ -87,12 +94,24 @@ const CcfoliaFormat = () => {
         tamayuraSkill,
       )
 
-      // 完成したココフォリア駒をクリップボードにコピー
-      copyTextToClipboard(JSON.stringify(charJson), setShowCopied(true))
+      // 画面上での確認用変数に値をセットする
+      setHP(charJson.data.status?.find(item => item.label === "HP")?.value ?? 0)
+      setMP(charJson.data.status?.find(item => item.label === "MP")?.value ?? 0)
+      setInitiative(charJson.data.initiative)
+      setOutputChatPalette(charJson.data.commands)
+
+      // ココフォリア駒をJSON文字列で返す
+      return JSON.stringify(charJson)
     } catch (error) {
       alert('ココフォリア駒の加工に失敗しました。')
       console.error('Could not create output: ', error)
+      return ""
     }
+  }
+
+  // ココフォリア駒を作成してクリップボードにコピー
+  const copyOutputCharJsonToClipboard = () => {
+    copyTextToClipboard(createOutputCharJson(), setShowCopied(true))
   }
 
   // JSON文字列を型チェックして変数にセット
@@ -235,10 +254,38 @@ const CcfoliaFormat = () => {
             placement="top"
             title="コピーしました！"
           >
-            <button onClick={() => createOutputCharJson()} disabled={!inputCharJson}>
+            <button onClick={() => copyOutputCharJsonToClipboard()} disabled={!inputCharJson}>
               加工されたココフォリア駒をコピー
             </button>
           </Tooltip>
+        </p>
+        <p>
+          <Modal
+            open={showCharDataModal}
+            onClose={() => setShowCharDataModal(false)}
+          >
+            <Box className="box">
+              <ul>
+                <li>HP: {HP}</li>
+                <li>MP: {MP}</li>
+                <li>イニシアティブ: {initiative}</li>
+              </ul>
+              <textarea
+                name="output-chat-palette"
+                cols={60}
+                rows={10}
+                value={outputChatPalette}
+                placeholder="ここに結果が出力されます"
+                readOnly
+              />
+            </Box>
+          </Modal>
+          <button onClick={() => {
+            createOutputCharJson()
+            setShowCharDataModal(true)
+          }} disabled={!inputCharJson}>
+            ステータスとチャットパレットを確認
+          </button>
         </p>
         <p>
           <button onClick={() => resetInputs()}>

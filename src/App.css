@@ -52,3 +52,27 @@ select {
 textarea {
   resize: vertical;
 }
+
+.box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #242424;
+  padding: 2em;
+}
+
+.box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.box textarea {
+  margin: 0.1em;
+}
+
+@media (prefers-color-scheme: light) {
+  .box {
+    background-color: #ffffff;
+  }
+}
