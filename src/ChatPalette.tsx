@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Tooltip } from "@mui/material"
+import { Tooltip } from '@mui/material'
 import { RiDiscordFill } from 'react-icons/ri'
 import { ImGithub } from 'react-icons/im'
 import './App.css'
