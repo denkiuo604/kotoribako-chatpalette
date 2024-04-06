@@ -2,11 +2,8 @@ import { useState } from 'react'
 import { Tooltip } from '@mui/material'
 import { Modal } from '@mui/material'
 import { Box } from '@mui/material'
-import { RiDiscordFill } from 'react-icons/ri'
-import { ImGithub } from 'react-icons/im'
 import './App.css'
 import { CharacterClipboardData } from './ccfolia'
-import { Link } from 'react-router-dom'
 import {
   clearing,
   copyTextToClipboard,
@@ -15,6 +12,7 @@ import {
   sneaking,
   tamayura,
 } from './common'
+import Footer from './Footer'
 
 const CcfoliaFormat = () => {
   const [inputTextArea, setInputTextArea] = useState("")
@@ -293,20 +291,11 @@ const CcfoliaFormat = () => {
           </button>
         </p>
       </div>
-      <p className="read-the-docs">
-        <a href="https://talto.cc/projects/uHgxrL9QQ9B3Fep7-1DAO">エモクロアTRPG『新約・コトリバコ』</a>用 ココフォリア駒加工ツール
-      </p>
-      <p className="another-page">
-        <Link to="/kotoribako-chatpalette">チャパレ加工ツールへ</Link>
-      </p>
-      <div className="icons">
-        <a href="https://discord.gg/PJG2TZHXUK">
-          <RiDiscordFill size="32px" />
-        </a>
-        <a href="https://github.com/denkiuo604/kotoribako-chatpalette">
-          <ImGithub size="32px" />
-        </a>
-      </div>
+      <Footer
+        toolName="ココフォリア駒加工ツール"
+        linkPath="/kotoribako-chatpalette"
+        linkText="チャパレ加工ツールへ"
+      />
     </div>
   )
 }

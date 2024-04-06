@@ -1,9 +1,6 @@
 import { useState } from 'react'
 import { Tooltip } from '@mui/material'
-import { RiDiscordFill } from 'react-icons/ri'
-import { ImGithub } from 'react-icons/im'
 import './App.css'
-import { Link } from 'react-router-dom'
 import {
   clearing,
   copyTextToClipboard,
@@ -12,6 +9,7 @@ import {
   sneaking,
   tamayura,
 } from './common'
+import Footer from './Footer'
 
 const ChatPalette = () => {
   const [inputChatPalette, setInputChatPalette] = useState("")
@@ -180,20 +178,11 @@ const ChatPalette = () => {
           </button>
         </p>
       </div>
-      <p className="read-the-docs">
-        <a href="https://talto.cc/projects/uHgxrL9QQ9B3Fep7-1DAO">エモクロアTRPG『新約・コトリバコ』</a>用 チャパレ加工ツール
-      </p>
-      <p className="another-page">
-        <Link to="/kotoribako-chatpalette/ccfolia-format">ココフォリア駒加工ツールへ</Link>
-      </p>
-      <div className="icons">
-        <a href="https://discord.gg/PJG2TZHXUK">
-          <RiDiscordFill size="32px" />
-        </a>
-        <a href="https://github.com/denkiuo604/kotoribako-chatpalette">
-          <ImGithub size="32px" />
-        </a>
-      </div>
+      <Footer
+        toolName="チャパレ加工ツール"
+        linkPath="/kotoribako-chatpalette/ccfolia-format"
+        linkText="ココフォリア駒加工ツールへ"
+      />
     </div>
   )
 }
