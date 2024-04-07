@@ -162,6 +162,10 @@ export const createOutputChatPalette = (
   sneakingSkill: string,
   tamayuraSkill: string,
 ) => {
+  // 正規表現
+  const regExpDM = /(\d)DM/
+  const regExpDMwithDB = /\(([0-9+]*)\)DM/
+
   // 出力用
   const outputCommands: string[] = []
 
@@ -174,32 +178,37 @@ export const createOutputChatPalette = (
 
     // 共鳴判定の{強度}を{呪力指数}に変換
     if (command.includes("{共鳴}")) {
-      changedCommand = command.replace("<={強度} ", "<={呪力指数} ")
+      changedCommand = changedCommand.replace("<={強度} ", "<={呪力指数} ")
     }
 
     // 宿禰ダイスボーナスを追加
     if (withSukune && sukune.some(skill => command.includes(skill))) {
-      changedCommand = command.replace(/(\d)DM/, "($1+1)DM") + "※宿禰"
+      changedCommand = changedCommand.replace(regExpDM, "($1+1)DM") + "※宿禰"
     }
 
     // 広目天ダイスボーナスを追加
     if (withKoumokuten && koumokuten.some(skill => command.includes(skill))) {
-      changedCommand = command.replace(/(\d)DM/, "($1+1)DM") + "※広目天"
+      changedCommand = changedCommand.replace(regExpDM, "($1+1)DM") + "※広目天"
     }
 
     // 豊聡耳ダイスボーナスを追加
     if (withToyosatomimi && toyosatomimi.some(skill => command.includes(skill))) {
-      changedCommand = command.replace(/(\d)DM/, "($1+1)DM") + "※豊聡耳"
+      if (withKoumokuten && command.includes("★霊感")) {
+        // 霊感へのダイスボーナスが広目天と重複した場合
+        changedCommand = changedCommand.replace(regExpDMwithDB, "($1+1)DM") + " ※豊聡耳"
+      } else {
+        changedCommand = changedCommand.replace(regExpDM, "($1+1)DM") + "※豊聡耳"
+      }
     }
 
     // 天狗蓑ダイスボーナスを追加
     if (withTengumino && tengumino.some(skill => command.includes(skill))) {
-      changedCommand = command.replace(/(\d)DM/, "($1+2)DM") + "※天狗蓑"
+      changedCommand = changedCommand.replace(regExpDM, "($1+2)DM") + "※天狗蓑"
     }
 
     // 八意ダイスボーナスを追加
     if (withYagokoro && yagokoro.some(skill => command.includes(skill))) {
-      changedCommand = command.replace(/(\d)DM/, "($1+2)DM") + "※八意"
+      changedCommand = changedCommand.replace(regExpDM, "($1+2)DM") + "※八意"
     }
 
     return changedCommand
@@ -260,8 +269,6 @@ export const createOutputChatPalette = (
     damageCommands.push("1D3 玉響MP消費")
 
     // 玉響MP消費時コマンドを追加
-    const regExpDM = /(\d)DM/
-    const regExpDMwithDB = /\(([0-9+]*)\)DM/
     if (regExpDM.test(commandForTamayura)) {
       damageCommands.push(commandForTamayura.replace(regExpDM, "($1+{共鳴})DM") + " ※玉響MP消費")
     } else if (regExpDMwithDB.test(commandForTamayura)) {
