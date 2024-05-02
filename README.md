@@ -4,23 +4,25 @@
 
 ## エモクロアTRPG『新約・コトリバコ』用 チャットパレット加工ツール
 
-https://denkiuo604.github.io/kotoribako-chatpalette/
+- [通常版](https://denkiuo604.github.io/kotoribako-chatpalette/)
+- [小説『新約・コトリバコ』追加装備対応版](https://denkiuo604.github.io/kotoribako-chatpalette/novel)
 
 ### 使い方
 
 1. [エモクロアTRPG キャラクターシート](https://emoklore.charasheet.jp/) からチャットパレットをコピーする
-2. コピーしたチャパレを [チャットパレット加工ツール](https://denkiuo604.github.io/kotoribako-chatpalette/) の入力欄に貼り付ける
+2. コピーしたチャパレをチャットパレット加工ツールの入力欄に貼り付ける
 3. 所持技能と所持装備を選ぶ
 4. `出力` をクリック！
 
 ## エモクロアTRPG『新約・コトリバコ』用 ココフォリア駒加工ツール
 
-https://denkiuo604.github.io/kotoribako-chatpalette/ccfolia-format
+- [通常版](https://denkiuo604.github.io/kotoribako-chatpalette/ccfolia-format)
+- [小説『新約・コトリバコ』追加装備対応版](https://denkiuo604.github.io/kotoribako-chatpalette/novel/ccfolia-format)
 
 ### 使い方
 
 1. [エモクロアTRPG キャラクターシート](https://emoklore.charasheet.jp/) から"CCFOLIA形式でコピー"する
-2. コピーしたものを [ココフォリア駒加工ツール](https://denkiuo604.github.io/kotoribako-chatpalette/ccfolia-format) の入力欄に貼り付ける
+2. コピーしたものをココフォリア駒加工ツールの入力欄に貼り付ける
 3. 所持技能と所持装備を選ぶ
 4. `加工されたココフォリア駒をコピー` をクリック！
 
