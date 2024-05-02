@@ -15,7 +15,7 @@ const Footer = (props: footerProps) => {
                 <a href="https://talto.cc/projects/uHgxrL9QQ9B3Fep7-1DAO">エモクロアTRPG『新約・コトリバコ』</a>用 {props.toolName}
             </p>
             <p className="another-page">
-                <Link to={props.linkPath}>{props.linkText}</Link>
+                <Link to={`/kotoribako-chatpalette${props.linkPath}`}>{props.linkText}</Link>
             </p>
             <div className="icons">
                 <a href="https://discord.gg/PJG2TZHXUK">
@@ -25,15 +25,6 @@ const Footer = (props: footerProps) => {
                     <ImGithub size="32px" />
                 </a>
             </div>
-            <p className="read-the-docs">
-                <div>
-                    本コンテンツは、
-                    <div>【小説『新約・コトリバコ』Amazon.co.jp限定特典PDF】</div>
-                    のデータを利用しています。
-                </div>
-                <a href="https://www.amazon.co.jp/dp/4048975862">https://www.amazon.co.jp/dp/4048975862</a>
-                <div>©手代木正太郎／まだら牛／KADOKAWA</div>
-            </p>
         </div>
     )
 }

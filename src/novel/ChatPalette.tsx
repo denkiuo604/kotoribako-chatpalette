@@ -1,15 +1,19 @@
 import { useState } from 'react'
 import { Tooltip } from '@mui/material'
-import './App.css'
+import '../App.css'
 import {
   clearing,
   copyTextToClipboard,
-  createOutputChatPalette,
   iyasakaEquipCheckbox,
   sneaking,
   tamayura,
+} from '../common'
+import {
+  createOutputChatPalette,
+  magatsu,
 } from './common'
-import Footer from './Footer'
+import Footer from '../Footer'
+import NovelFooter from './Footer'
 import { Helmet } from 'react-helmet'
 
 const ChatPalette = () => {
@@ -23,9 +27,13 @@ const ChatPalette = () => {
   const [withTengumino, setWithTengumino] = useState(false)
   const [withYagokoro, setWithYagokoro] = useState(false)
   const [withYaobiku, setWithYaobiku] = useState(false)
+  const [withMakako, setWithMakako] = useState(false)
+  const [withHitokotonushi, setWithHitokotonushi] = useState(false)
+  const [withAmanokaeshiya, setWithAmanokaeshiya] = useState(false)
   const [clearingSkill, setClearingSkill] = useState("")
   const [sneakingSkill, setSneakingSkill] = useState("")
   const [tamayuraSkill, setTamayuraSkill] = useState("")
+  const [magatsuSkill, setMagatsuSkill] = useState("")
   const [showCopied, setShowCopied] = useState(false)
 
   const placeHolderOfChatPalette = "{共鳴}DM<={強度} 〈∞共鳴〉\n({共鳴}+1)DM<={強度} 〈∞共鳴〉ルーツ属性一致\n({共鳴}*2)DM<={強度} 〈∞共鳴〉完全一致\n..."
@@ -43,9 +51,13 @@ const ChatPalette = () => {
       withYoichi,
       withRaiden,
       withYaobiku,
+      withMakako,
+      withHitokotonushi,
+      withAmanokaeshiya,
       clearingSkill,
       sneakingSkill,
       tamayuraSkill,
+      magatsuSkill,
     )
     // 作成したチャットパレットを出力欄にセット
     setOutputChatPalette(output)
@@ -63,9 +75,13 @@ const ChatPalette = () => {
     setWithTengumino(false)
     setWithYagokoro(false)
     setWithYaobiku(false)
+    setWithMakako(false)
+    setWithHitokotonushi(false)
+    setWithAmanokaeshiya(false)
     setClearingSkill("")
     setSneakingSkill("")
     setTamayuraSkill("")
+    setMagatsuSkill("")
   }
 
   return (
@@ -147,6 +163,28 @@ const ChatPalette = () => {
           {iyasakaEquipCheckbox("raiden", "雷電", withRaiden, setWithRaiden)}
           {iyasakaEquipCheckbox("yaobiku", "八百比丘", withYaobiku, setWithYaobiku)}
         </div>
+        <div className="iyasaka-equipments">
+          追加データ装備
+          {iyasakaEquipCheckbox("makako", "麻迦古", withMakako, setWithMakako)}
+          {iyasakaEquipCheckbox("hitokotonushi", "一言主", withHitokotonushi, setWithHitokotonushi)}
+          {iyasakaEquipCheckbox("amanokaeshiya", "天之返矢", withAmanokaeshiya, setWithAmanokaeshiya)}
+        </div>
+        <div className="magatsu">
+          <label htmlFor="magatsu-skill">禍津で使う技能</label>
+          <select
+            id="magatsu-skill"
+            name="magatsu-skill"
+            value={magatsuSkill}
+            onChange={(event) => setMagatsuSkill(event.target.value)}
+          >
+            <option value="">禍津未所持</option>
+            {magatsu.map(skill => {
+              return (
+                <option key={skill} value={skill}>{skill}</option>
+              )
+            })}
+          </select>
+        </div>
         <p>
           <button onClick={() => onClickOutput()}>
             出力
@@ -184,9 +222,10 @@ const ChatPalette = () => {
       </div>
       <Footer
         toolName="チャパレ加工ツール"
-        linkPath="/ccfolia-format"
+        linkPath="/novel/ccfolia-format"
         linkText="ココフォリア駒加工ツールへ"
       />
+      <NovelFooter />
     </div>
   )
 }

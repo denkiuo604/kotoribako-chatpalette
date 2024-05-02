@@ -2,17 +2,21 @@ import { useState } from 'react'
 import { Tooltip } from '@mui/material'
 import { Modal } from '@mui/material'
 import { Box } from '@mui/material'
-import './App.css'
-import { CharacterClipboardData } from './ccfolia'
+import '../App.css'
+import { CharacterClipboardData } from '../ccfolia'
 import {
   clearing,
   copyTextToClipboard,
-  createOutputChatPalette,
   iyasakaEquipCheckbox,
   sneaking,
   tamayura,
+} from '../common'
+import {
+  createOutputChatPalette,
+  magatsu,
 } from './common'
-import Footer from './Footer'
+import Footer from '../Footer'
+import NovelFooter from './Footer'
 import { Helmet } from 'react-helmet'
 
 const CcfoliaFormat = () => {
@@ -26,9 +30,13 @@ const CcfoliaFormat = () => {
   const [withTengumino, setWithTengumino] = useState(false)
   const [withYagokoro, setWithYagokoro] = useState(false)
   const [withYaobiku, setWithYaobiku] = useState(false)
+  const [withMakako, setWithMakako] = useState(false)
+  const [withHitokotonushi, setWithHitokotonushi] = useState(false)
+  const [withAmanokaeshiya, setWithAmanokaeshiya] = useState(false)
   const [clearingSkill, setClearingSkill] = useState("")
   const [sneakingSkill, setSneakingSkill] = useState("")
   const [tamayuraSkill, setTamayuraSkill] = useState("")
+  const [magatsuSkill, setMagatsuSkill] = useState("")
   const [showCopied, setShowCopied] = useState(false)
   const [showCharDataModal, setShowCharDataModal] = useState(false)
   const [HP, setHP] = useState(0)
@@ -88,9 +96,13 @@ const CcfoliaFormat = () => {
         numYoichi > 0,
         withRaiden,
         withYaobiku,
+        withMakako,
+        withHitokotonushi,
+        withAmanokaeshiya,
         clearingSkill,
         sneakingSkill,
         tamayuraSkill,
+        magatsuSkill,
       )
 
       // 画面上での確認用変数に値をセットする
@@ -149,9 +161,13 @@ const CcfoliaFormat = () => {
     setWithTengumino(false)
     setWithYagokoro(false)
     setWithYaobiku(false)
+    setWithMakako(false)
+    setWithHitokotonushi(false)
+    setWithAmanokaeshiya(false)
     setClearingSkill("")
     setSneakingSkill("")
     setTamayuraSkill("")
+    setMagatsuSkill("")
   }
 
   return (
@@ -247,6 +263,28 @@ const CcfoliaFormat = () => {
           {iyasakaEquipCheckbox("raiden", "雷電", withRaiden, setWithRaiden)}
           {iyasakaEquipCheckbox("yaobiku", "八百比丘", withYaobiku, setWithYaobiku)}
         </div>
+        <div className="iyasaka-equipments">
+          追加データ装備
+          {iyasakaEquipCheckbox("makako", "麻迦古", withMakako, setWithMakako)}
+          {iyasakaEquipCheckbox("hitokotonushi", "一言主", withHitokotonushi, setWithHitokotonushi)}
+          {iyasakaEquipCheckbox("amanokaeshiya", "天之返矢", withAmanokaeshiya, setWithAmanokaeshiya)}
+        </div>
+        <div className="magatsu">
+          <label htmlFor="magatsu-skill">禍津で使う技能</label>
+          <select
+            id="magatsu-skill"
+            name="magatsu-skill"
+            value={magatsuSkill}
+            onChange={(event) => setMagatsuSkill(event.target.value)}
+          >
+            <option value="">禍津未所持</option>
+            {magatsu.map(skill => {
+              return (
+                <option key={skill} value={skill}>{skill}</option>
+              )
+            })}
+          </select>
+        </div>
         <p>
           <Tooltip
             arrow
@@ -297,9 +335,10 @@ const CcfoliaFormat = () => {
       </div>
       <Footer
         toolName="ココフォリア駒加工ツール"
-        linkPath=""
+        linkPath="/novel"
         linkText="チャパレ加工ツールへ"
       />
+      <NovelFooter />
     </div>
   )
 }
