@@ -266,13 +266,13 @@ export const createOutputChatPalette = (
   // 玉響を追加
   const commandForTamayura = commands.find(command => command.includes(tamayuraSkill))
   if (tamayuraSkill && commandForTamayura) {
-    damageCommands.push("1D3 玉響MP消費")
+    damageCommands.push("1D3 玉響消費MP")
 
     // 玉響MP消費時コマンドを追加
     if (regExpDM.test(commandForTamayura)) {
-      damageCommands.push(commandForTamayura.replace(regExpDM, "($1+{共鳴})DM") + " ※玉響MP消費")
+      damageCommands.push(commandForTamayura.replace(regExpDM, "($1+{共鳴})DM") + " ※玉響MP消費時")
     } else if (regExpDMwithDB.test(commandForTamayura)) {
-      damageCommands.push(commandForTamayura.replace(regExpDMwithDB, "($1+{共鳴})DM") + " ※玉響MP消費")
+      damageCommands.push(commandForTamayura.replace(regExpDMwithDB, "($1+{共鳴})DM") + " ※玉響MP消費時")
     }
 
     // ストレングスの技能レベルを取得
@@ -311,7 +311,7 @@ export const createOutputChatPalette = (
 
   // 八百比丘を追加
   if (withYaobiku) {
-    damageCommands.push("2D6 八百比丘HP回復")
+    damageCommands.push("2D6 八百比丘回復HP")
   }
 
   // 出力用にダメージ算出コマンドを追加
