@@ -143,9 +143,13 @@ export const copyTextToClipboard = (text: string, onSuccess: void) => {
  * @param withYoichi 与一 所持有無
  * @param withRaiden 雷電 所持有無
  * @param withYaobiku 八百比丘 所持有無
+ * @param withMakako 麻迦古 所持有無
+ * @param withHitokotonushi 一言主 所持有無
+ * @param withAmanokaeshiya 天之返矢 所持有無
  * @param clearingSkill クリアリング技能としても用いる技能
  * @param sneakingSkill スニーキング技能としても用いる技能
  * @param tamayuraSkill 玉響使用時に用いる技能
+ * @param magatsuSkill 禍津使用時に用いる技能
  * @returns 加工後のチャットパレット
  */
 export const createOutputChatPalette = (
@@ -158,9 +162,13 @@ export const createOutputChatPalette = (
   withYoichi: boolean,
   withRaiden: boolean,
   withYaobiku: boolean,
+  withMakako: boolean,
+  withHitokotonushi: boolean,
+  withAmanokaeshiya: boolean,
   clearingSkill: string,
   sneakingSkill: string,
   tamayuraSkill: string,
+  magatsuSkill: string,
 ) => {
   // 正規表現
   const regExpDM = /(\d)DM/
@@ -244,6 +252,17 @@ export const createOutputChatPalette = (
     specialSkillCommands.push(commandForSneaking.replace(/〈.+?〉/, "〈スニーキング〉"))
   }
 
+  // 一言主を追加
+  const commandForHitokotonushi = commands.find(command => command.includes("★霊感"))
+  if (withHitokotonushi && commandForHitokotonushi) {
+    // 一言主MP消費時コマンドを追加
+    if (regExpDM.test(commandForHitokotonushi)) {
+      specialSkillCommands.push(commandForHitokotonushi.replace(regExpDM, "($1+1)DM") + " ※一言主MP消費時")
+    } else if (regExpDMwithDB.test(commandForHitokotonushi)) {
+      specialSkillCommands.push(commandForHitokotonushi.replace(regExpDMwithDB, "($1+1)DM") + " ※一言主MP消費時")
+    }
+  }
+
   // 出力用に特殊技能を追加
   if (specialSkillCommands.length > 0) {
     outputCommands.push(`//${fullBlank}特殊技能`)
@@ -263,6 +282,9 @@ export const createOutputChatPalette = (
   // ダメージ算出コマンド
   const damageCommands: string[] = []
 
+  // ストレングスの技能レベルを取得
+  const strengthLevel = Number(inputCommands.find(command => command.includes(strength))?.charAt(0) ?? 0)
+
   // 玉響を追加
   const commandForTamayura = commands.find(command => command.includes(tamayuraSkill))
   if (tamayuraSkill && commandForTamayura) {
@@ -274,9 +296,6 @@ export const createOutputChatPalette = (
     } else if (regExpDMwithDB.test(commandForTamayura)) {
       damageCommands.push(commandForTamayura.replace(regExpDMwithDB, "($1+{共鳴})DM") + " ※玉響MP消費時")
     }
-
-    // ストレングスの技能レベルを取得
-    const strengthLevel = Number(inputCommands.find(command => command.includes(strength))?.charAt(0) ?? 0)
 
     // 玉響ダメージを追加
     switch (tamayuraSkill) {
@@ -312,6 +331,52 @@ export const createOutputChatPalette = (
   // 八百比丘を追加
   if (withYaobiku) {
     damageCommands.push("2D6 八百比丘回復HP")
+  }
+
+  // 麻迦古を追加
+  const commandForMakako = commands.find(command => command.includes("★射撃"))
+  if (withMakako && commandForMakako) {
+    // 麻迦古MP消費時コマンドを追加
+    if (regExpDM.test(commandForMakako)) {
+      damageCommands.push(commandForMakako.replace(regExpDM, "($1+X)DM") + " ※麻迦古MP消費時 ※Xは消費MP")
+    } else if (regExpDMwithDB.test(commandForMakako)) {
+      damageCommands.push(commandForMakako.replace(regExpDMwithDB, "($1+X)DM") + " ※麻迦古MP消費時 ※Xは消費MP")
+    }
+
+    damageCommands.push("X+2D10 麻迦古ダメージ ※Xは成功数")
+  }
+
+  // 禍津を追加
+  const commandForMagatsu = commands.find(command => command.includes(magatsuSkill))
+  if (magatsuSkill && commandForMagatsu) {
+    // 禍津ダメージを追加
+    switch (magatsuSkill) {
+      case "武術":
+        if (strengthLevel === 0) {
+          damageCommands.push("XD3+(2+{死穢})D4 禍津ダメージ ※Xは成功数")
+        } else {
+          damageCommands.push(`XD3+(2+{死穢})D4+${strengthLevel} 禍津ダメージ ※Xは成功数`)
+        }
+        break
+      case "★奥義":
+        if (strengthLevel === 0) {
+          damageCommands.push("XD6+(2+{死穢})D4 禍津ダメージ ※Xは成功数")
+        } else {
+          damageCommands.push(`XD6+(2+{死穢})D4+${strengthLevel} 禍津ダメージ ※Xは成功数`)
+        }
+        break
+      case "＊投擲":
+        damageCommands.push("X+(2+{死穢})D4 禍津ダメージ ※Xは成功数")
+        break
+      default:
+        break
+    }
+  }
+
+  // 天之返矢を追加
+  const commandForAmanokaeshiya = commands.find(command => command.includes("危機察知"))
+  if (withAmanokaeshiya && commandForAmanokaeshiya) {
+    damageCommands.push("1D6 天之返矢消費MP")
   }
 
   // 出力用にダメージ算出コマンドを追加

@@ -88,9 +88,13 @@ const CcfoliaFormat = () => {
         numYoichi > 0,
         withRaiden,
         withYaobiku,
+        false,
+        false,
+        false,
         clearingSkill,
         sneakingSkill,
         tamayuraSkill,
+        "",
       )
 
       // 画面上での確認用変数に値をセットする

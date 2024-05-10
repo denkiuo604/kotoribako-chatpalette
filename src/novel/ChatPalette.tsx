@@ -4,12 +4,12 @@ import '../App.css'
 import {
   clearing,
   copyTextToClipboard,
+  createOutputChatPalette,
   iyasakaEquipCheckbox,
   sneaking,
   tamayura,
 } from '../common'
 import {
-  createOutputChatPalette,
   magatsu,
 } from './common'
 import Footer from '../Footer'

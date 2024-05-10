@@ -43,9 +43,13 @@ const ChatPalette = () => {
       withYoichi,
       withRaiden,
       withYaobiku,
+      false,
+      false,
+      false,
       clearingSkill,
       sneakingSkill,
       tamayuraSkill,
+      "",
     )
     // 作成したチャットパレットを出力欄にセット
     setOutputChatPalette(output)
