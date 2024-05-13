@@ -17,7 +17,7 @@ import {
 } from './common'
 import Footer from '../Footer'
 import NovelFooter from './Footer'
-import { Helmet } from 'react-helmet'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 const CcfoliaFormat = () => {
   const [inputTextArea, setInputTextArea] = useState("")
@@ -172,9 +172,11 @@ const CcfoliaFormat = () => {
 
   return (
     <div className="App">
-      <Helmet>
-        <title>エモクロアTRPG『新約・コトリバコ』用 ココフォリア駒加工ツール</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>エモクロアTRPG『新約・コトリバコ』用 ココフォリア駒加工ツール</title>
+        </Helmet>
+      </HelmetProvider>
       <div className="card">
         <div className="char-json">
           <div className="char-json-label">{'"CCFOLIA形式でコピー"したものを以下のエリアに貼り付けてください'}</div>

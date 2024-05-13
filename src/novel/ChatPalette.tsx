@@ -14,7 +14,7 @@ import {
 } from './common'
 import Footer from '../Footer'
 import NovelFooter from './Footer'
-import { Helmet } from 'react-helmet'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 const ChatPalette = () => {
   const [inputChatPalette, setInputChatPalette] = useState("")
@@ -86,9 +86,11 @@ const ChatPalette = () => {
 
   return (
     <div className="App">
-      <Helmet>
-        <title>エモクロアTRPG『新約・コトリバコ』用 チャパレ加工ツール</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>エモクロアTRPG『新約・コトリバコ』用 チャパレ加工ツール</title>
+        </Helmet>
+      </HelmetProvider>
       <div className="card">
         <div className="chat-palette">
           <div className="chat-palette-label">チャットパレットを下の入力欄にコピペしてください</div>
