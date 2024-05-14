@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Tooltip } from '@mui/material'
-import { Modal } from '@mui/material'
-import { Box } from '@mui/material'
+import Tooltip from '@mui/material/Tooltip'
+import Modal from '@mui/material/Modal'
+import Box from '@mui/material/Box'
 import '../App.css'
 import { CharacterClipboardData } from '../ccfolia'
 import {
