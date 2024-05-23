@@ -31,7 +31,7 @@
 kotoribako-chatpaletteの不具合報告やご要望があれば、以下に示す方法などでお知らせください。
 
 1. Discordの [kotoribako-chatpalette Users' Chat][invite discord] にある各種チャンネルへ投稿する (迷ったらこちらへ！)
-2. X (Twitter) で [@denkiuo604](https://twitter.com/denkiuo604) にコンタクトを取る
+2. X (Twitter) で [@denkiuo604](https://x.com/denkiuo604) にコンタクトを取る
 3. GitHubの issue や Pull Request を作成する (GitやGitHubがわかる方向け)
 
 ## LICENSE
