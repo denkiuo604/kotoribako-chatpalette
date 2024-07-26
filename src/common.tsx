@@ -336,11 +336,11 @@ export const createOutputChatPalette = (
   // 麻迦古を追加
   const commandForMakako = commands.find(command => command.includes("★射撃"))
   if (withMakako && commandForMakako) {
-    // 麻迦古MP消費時コマンドを追加
+    // 麻迦古用コマンドを追加
     if (regExpDM.test(commandForMakako)) {
-      damageCommands.push(commandForMakako.replace(regExpDM, "($1+X)DM") + " ※麻迦古MP消費時 ※Xは消費MP")
+      damageCommands.push(commandForMakako.replace(regExpDM, "($1+X)DM") + " ※麻迦古 ※Xは消費MP")
     } else if (regExpDMwithDB.test(commandForMakako)) {
-      damageCommands.push(commandForMakako.replace(regExpDMwithDB, "($1+X)DM") + " ※麻迦古MP消費時 ※Xは消費MP")
+      damageCommands.push(commandForMakako.replace(regExpDMwithDB, "($1+X)DM") + " ※麻迦古 ※Xは消費MP")
     }
 
     damageCommands.push("X+2D10 麻迦古ダメージ ※Xは成功数")
