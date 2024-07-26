@@ -85,6 +85,15 @@ const CcfoliaFormat = () => {
         }
       })
 
+      // 禍津を所持している場合はステータスに死穢レベルを追加する
+      if (magatsuSkill) {
+        charJson.data.status?.push({
+          label: "死穢",
+          value: 0,
+          max: 0,
+        })
+      }
+
       // チャットパレット作成
       charJson.data.commands = createOutputChatPalette(
         charJson.data.commands ?? "",
