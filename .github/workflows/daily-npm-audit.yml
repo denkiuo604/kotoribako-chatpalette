@@ -1,0 +1,25 @@
+# npm auditを毎日18時に実行する
+name: Daily npm audit
+
+on:
+  schedule:
+    # Runs at every 18:00 of every day
+    - cron: '0 18 * * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN
+permissions: {}
+
+jobs:
+  # Check job
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+      - name: Check dependencies
+        run: npm audit
