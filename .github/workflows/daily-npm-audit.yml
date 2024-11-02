@@ -1,10 +1,10 @@
-# npm auditを毎日18時に実行する
+# npm auditを毎日18時(JST)に実行する
 name: Daily npm audit
 
 on:
   schedule:
-    # Runs at every 18:00 of every day
-    - cron: '0 18 * * *'
+    # Runs at every 9:00(UTC) of every day
+    - cron: '0 9 * * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
