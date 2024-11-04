@@ -8,6 +8,7 @@ import {
   clearing,
   copyTextToClipboard,
   createOutputChatPalette,
+  invalidCharError,
   iyasakaEquipCheckbox,
   sneaking,
   tamayura,
@@ -46,9 +47,6 @@ const CcfoliaFormat = () => {
     "5",
     "6",
   ]
-
-  // 型不正エラー文
-  const invalidCharError = "貼り付けられたココフォリア駒が不正です。"
 
   // ココフォリア駒作成
   const createOutputCharJson = () => {
