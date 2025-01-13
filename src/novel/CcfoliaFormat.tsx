@@ -345,7 +345,7 @@ const CcfoliaFormat = () => {
       <Footer
         toolName="ココフォリア駒加工ツール"
         linkPath="/novel"
-        linkText="チャパレ加工ツールへ"
+        linkText="チャパレ加工ツールに切り替える"
       />
       <NovelFooter />
     </div>

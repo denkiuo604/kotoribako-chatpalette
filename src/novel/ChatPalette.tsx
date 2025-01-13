@@ -225,7 +225,7 @@ const ChatPalette = () => {
       <Footer
         toolName="チャパレ加工ツール"
         linkPath="/novel/ccfolia-format"
-        linkText="ココフォリア駒加工ツールへ"
+        linkText="ココフォリア駒加工ツールに切り替える"
       />
       <NovelFooter />
     </div>
