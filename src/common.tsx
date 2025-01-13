@@ -386,7 +386,7 @@ export const createOutputChatPalette = (
 
   // 出力用にダメージ算出コマンドを追加
   if (damageCommands.length > 0) {
-    outputCommands.push(`//${fullBlank}攻撃データ`)
+    outputCommands.push(`//${fullBlank}攻撃・回復`)
     damageCommands.forEach(command => {
       outputCommands.push(command)
     })
