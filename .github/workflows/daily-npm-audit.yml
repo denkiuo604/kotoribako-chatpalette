@@ -2,9 +2,9 @@
 name: Daily npm audit
 
 on:
-  schedule:
-    # Runs at every 9:00(UTC) of every day
-    # - cron: '0 9 * * *'
+  # schedule:
+  #   # Runs at every 9:00(UTC) of every day
+  #   - cron: '0 9 * * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
