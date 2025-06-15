@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { RiDiscordFill } from 'react-icons/ri'
 import { ImGithub } from 'react-icons/im'
+import Tooltip from '@mui/material/Tooltip'
 
 type footerProps = {
     toolName: string
@@ -18,12 +19,24 @@ const Footer = (props: footerProps) => {
                 <Link to={`/kotoribako-chatpalette${props.linkPath}`}>{props.linkText}</Link>
             </p>
             <div className="icons">
-                <a href="https://discord.gg/PJG2TZHXUK">
-                    <RiDiscordFill size="32px" />
-                </a>
-                <a href="https://github.com/denkiuo604/kotoribako-chatpalette">
-                    <ImGithub size="32px" />
-                </a>
+                <Tooltip
+                    arrow
+                    placement="top"
+                    title="kotoribako-chatpaletteユーザー向けDiscordサーバー"
+                >
+                    <a href="https://discord.gg/PJG2TZHXUK">
+                        <RiDiscordFill size="32px" />
+                    </a>
+                </Tooltip>
+                <Tooltip
+                    arrow
+                    placement="top"
+                    title="GitHub"
+                >
+                    <a href="https://github.com/denkiuo604/kotoribako-chatpalette">
+                        <ImGithub size="32px" />
+                    </a>
+                </Tooltip>
             </div>
         </div>
     )
