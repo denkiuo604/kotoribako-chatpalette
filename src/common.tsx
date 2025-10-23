@@ -178,6 +178,8 @@ export const createOutputChatPalette = (
   // 正規表現
   const regExpDM = /(\d)DM/
   const regExpDMwithDB = /\(([0-9+]*)\)DM/
+  const regExpDA = /DA{(.*)}/
+  const regExpDAwithDB = /DA{(.*)}\+\((.*)\)/
 
   // 出力用
   const outputCommands: string[] = []
@@ -196,32 +198,44 @@ export const createOutputChatPalette = (
 
     // 宿禰ダイスボーナスを追加
     if (withSukune && sukune.some(skill => command.includes(skill))) {
-      changedCommand = changedCommand.replace(regExpDM, "($1+1)DM") + "※宿禰"
+      changedCommand = changedCommand.replace(regExpDA, "DA{$1}+(1)")
+      changedCommand = changedCommand.replace(regExpDM, "($1+1)DM")
+      changedCommand += "※宿禰"
     }
 
     // 広目天ダイスボーナスを追加
     if (withKoumokuten && koumokuten.some(skill => command.includes(skill))) {
-      changedCommand = changedCommand.replace(regExpDM, "($1+1)DM") + "※広目天"
+      changedCommand = changedCommand.replace(regExpDM, "($1+1)DM")
+      changedCommand = changedCommand.replace(regExpDA, "DA{$1}+(1)")
+      changedCommand += "※広目天"
     }
 
     // 豊聡耳ダイスボーナスを追加
     if (withToyosatomimi && toyosatomimi.some(skill => command.includes(skill))) {
       if (withKoumokuten && command.includes("★霊感")) {
         // 霊感へのダイスボーナスが広目天と重複した場合
-        changedCommand = changedCommand.replace(regExpDMwithDB, "($1+1)DM") + " ※豊聡耳"
+        changedCommand = changedCommand.replace(regExpDMwithDB, "($1+1)DM")
+        changedCommand = changedCommand.replace(regExpDAwithDB, "DA{$1}+($2+1)")
+        changedCommand += " ※豊聡耳"
       } else {
-        changedCommand = changedCommand.replace(regExpDM, "($1+1)DM") + "※豊聡耳"
+        changedCommand = changedCommand.replace(regExpDM, "($1+1)DM")
+        changedCommand = changedCommand.replace(regExpDA, "DA{$1}+(1)")
+        changedCommand += "※豊聡耳"
       }
     }
 
     // 天狗蓑ダイスボーナスを追加
     if (withTengumino && tengumino.some(skill => command.includes(skill))) {
-      changedCommand = changedCommand.replace(regExpDM, "($1+2)DM") + "※天狗蓑"
+      changedCommand = changedCommand.replace(regExpDM, "($1+2)DM")
+      changedCommand = changedCommand.replace(regExpDA, "DA{$1}+(2)")
+      changedCommand += "※天狗蓑"
     }
 
     // 八意ダイスボーナスを追加
     if (withYagokoro && yagokoro.some(skill => command.includes(skill))) {
-      changedCommand = changedCommand.replace(regExpDM, "($1+2)DM") + "※八意"
+      changedCommand = changedCommand.replace(regExpDM, "($1+2)DM")
+      changedCommand = changedCommand.replace(regExpDA, "DA{$1}+(2)")
+      changedCommand += "※八意"
     }
 
     return changedCommand
@@ -265,6 +279,10 @@ export const createOutputChatPalette = (
       specialSkillCommands.push(commandForHitokotonushi.replace(regExpDM, "($1+1)DM") + " ※一言主MP消費時")
     } else if (regExpDMwithDB.test(commandForHitokotonushi)) {
       specialSkillCommands.push(commandForHitokotonushi.replace(regExpDMwithDB, "($1+1)DM") + " ※一言主MP消費時")
+    } else if (regExpDAwithDB.test(commandForHitokotonushi)) {
+      specialSkillCommands.push(commandForHitokotonushi.replace(regExpDAwithDB, "DA{$1}+($2+1)") + " ※一言主MP消費時")
+    } else if (regExpDA.test(commandForHitokotonushi)) {
+      specialSkillCommands.push(commandForHitokotonushi.replace(regExpDA, "DA{$1}+(1)") + " ※一言主MP消費時")
     }
   }
 
@@ -300,6 +318,10 @@ export const createOutputChatPalette = (
       damageCommands.push(commandForTamayura.replace(regExpDM, "($1+{共鳴})DM") + " ※玉響MP消費時")
     } else if (regExpDMwithDB.test(commandForTamayura)) {
       damageCommands.push(commandForTamayura.replace(regExpDMwithDB, "($1+{共鳴})DM") + " ※玉響MP消費時")
+    } else if (regExpDAwithDB.test(commandForTamayura)) {
+      damageCommands.push(commandForTamayura.replace(regExpDAwithDB, "DA{$1}+($2+{共鳴})") + " ※玉響MP消費時")
+    } else if (regExpDA.test(commandForTamayura)) {
+      damageCommands.push(commandForTamayura.replace(regExpDA, "DA{$1}+({共鳴})") + " ※玉響MP消費時")
     }
 
     // 玉響ダメージを追加
@@ -346,6 +368,10 @@ export const createOutputChatPalette = (
       damageCommands.push(commandForMakako.replace(regExpDM, "($1+X)DM") + " ※麻迦古 ※Xは消費MP")
     } else if (regExpDMwithDB.test(commandForMakako)) {
       damageCommands.push(commandForMakako.replace(regExpDMwithDB, "($1+X)DM") + " ※麻迦古 ※Xは消費MP")
+    } else if (regExpDAwithDB.test(commandForMakako)) {
+      damageCommands.push(commandForMakako.replace(regExpDAwithDB, "DA{$1}+($2+X)") + " ※麻迦古 ※Xは消費MP")
+    } else if (regExpDA.test(commandForMakako)) {
+      damageCommands.push(commandForMakako.replace(regExpDA, "DA{$1}+(X)") + " ※麻迦古 ※Xは消費MP")
     }
 
     damageCommands.push("X+2D10 麻迦古ダメージ ※Xは成功数")
