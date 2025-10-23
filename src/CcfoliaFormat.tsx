@@ -65,8 +65,8 @@ const CcfoliaFormat = () => {
       charJson.data.status?.forEach(item => {
         // 宿禰を所持している場合はHP+5
         if (withSukune && item.label === "HP") {
-          item.value += 5
-          item.max += 5
+          item.value = Number(item.value) + 5
+          item.max = Number(item.max) + 5
         }
         // 与一の取得個数×2だけMPを減少させる
         if (item.label === "MP") {
