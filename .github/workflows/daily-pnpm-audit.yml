@@ -25,7 +25,5 @@ jobs:
           version: 10
       - name: Setup Node
         uses: actions/setup-node@v4
-        with:
-          cache: 'pnpm'
       - name: Check dependencies
         run: pnpm audit

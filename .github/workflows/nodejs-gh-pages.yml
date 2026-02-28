@@ -38,8 +38,6 @@ jobs:
           version: 10
       - name: Setup Node
         uses: actions/setup-node@v4
-        with:
-          cache: 'pnpm'
       - name: Check vulnerabilities
         run: pnpm audit
       - name: Install dependencies
