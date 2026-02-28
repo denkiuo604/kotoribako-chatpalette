@@ -1,5 +1,5 @@
-# npm auditを毎日18時(JST)に実行する
-name: Daily npm audit
+# pnpm auditを毎日18時(JST)に実行する
+name: Daily pnpm audit
 
 on:
   schedule:
@@ -22,4 +22,4 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
       - name: Check dependencies
-        run: npm audit
+        run: pnpm audit
