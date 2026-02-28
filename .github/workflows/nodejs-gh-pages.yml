@@ -32,8 +32,12 @@ jobs:
         uses: actions/checkout@v4
       - name: Write GitHub SHA
         run: sed -i s/GITHUB_SHA/${{ github.sha }}/ index.html
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node
         uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
       - name: Check vulnerabilities
         run: pnpm audit
       - name: Install dependencies
