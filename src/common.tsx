@@ -97,7 +97,7 @@ export const fullBlank = "　"
 /**
  * ココフォリア駒 型不正エラー文
  */
-export const invalidCharError = `貼り付けられたココフォリア駒が不正です。\nキャラクターシートから"CCFOLIA形式でコピー"してください。`
+export const invalidCharError = `貼り付けられたココフォリア駒が不正です。\nキャラクターシートから"CCFOLIA駒形式でコピー"してください。`
 
 /**
  * イヤサカ装備チェックボックス テンプレート
