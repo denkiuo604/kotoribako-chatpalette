@@ -9,16 +9,16 @@ export const sukune = [
   "ダイブ",
   "＊格闘",
   "武術",
-  "★奥義",
+  "奥義",
   "＊投擲",
-  "★射撃",
+  "射撃",
   "＊生存",
   "耐久",
   "＊自我",
   "根性",
   "＊手当て",
   "医術",
-  "★蘇生",
+  "蘇生",
 ]
 
 /**
@@ -26,7 +26,7 @@ export const sukune = [
  */
 export const tamayura = [
   "武術",
-  "★奥義",
+  "奥義",
 ]
 
 /**
@@ -35,7 +35,7 @@ export const tamayura = [
 export const koumokuten = [
   "観察眼",
   "危機察知",
-  "★霊感",
+  "霊感",
 ]
 
 /**
@@ -44,7 +44,7 @@ export const koumokuten = [
 export const toyosatomimi = [
   "聞き耳",
   "心理",
-  "★霊感",
+  "霊感",
 ]
 
 /**
@@ -212,7 +212,7 @@ export const createOutputChatPalette = (
 
     // 豊聡耳ダイスボーナスを追加
     if (withToyosatomimi && toyosatomimi.some(skill => command.includes(skill))) {
-      if (withKoumokuten && command.includes("★霊感")) {
+      if (withKoumokuten && command.includes("霊感")) {
         // 霊感へのダイスボーナスが広目天と重複した場合
         changedCommand = changedCommand.replace(regExpDMwithDB, "($1+1)DM")
         changedCommand = changedCommand.replace(regExpDAwithDB, "DA{$1}+($2+1)")
@@ -272,7 +272,7 @@ export const createOutputChatPalette = (
   }
 
   // 一言主を追加
-  const commandForHitokotonushi = commands.find(command => command.includes("★霊感"))
+  const commandForHitokotonushi = commands.find(command => command.includes("霊感"))
   if (withHitokotonushi && commandForHitokotonushi) {
     // 一言主MP消費時コマンドを追加
     if (regExpDM.test(commandForHitokotonushi)) {
@@ -333,7 +333,7 @@ export const createOutputChatPalette = (
           damageCommands.push(`XD3+2D6+${strengthLevel} 玉響ダメージ ※Xは成功数`)
         }
         break
-      case "★奥義":
+      case "奥義":
         if (strengthLevel === 0) {
           damageCommands.push("(X+2)D6 玉響ダメージ ※Xは成功数")
         } else {
@@ -361,7 +361,7 @@ export const createOutputChatPalette = (
   }
 
   // 麻迦古を追加
-  const commandForMakako = commands.find(command => command.includes("★射撃"))
+  const commandForMakako = commands.find(command => command.includes("射撃"))
   if (withMakako && commandForMakako) {
     // 麻迦古用コマンドを追加
     if (regExpDM.test(commandForMakako)) {
@@ -389,7 +389,7 @@ export const createOutputChatPalette = (
           damageCommands.push(`XD3+(2+{死穢})D4+${strengthLevel} 禍津ダメージ ※Xは成功数`)
         }
         break
-      case "★奥義":
+      case "奥義":
         if (strengthLevel === 0) {
           damageCommands.push("XD6+(2+{死穢})D4 禍津ダメージ ※Xは成功数")
         } else {
